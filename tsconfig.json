@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ESNext",
+    "sourceMap": true,
+    "outDir": "src/",
+    "watch": true,
+    "moduleResolution": "node"
+  }
+}
