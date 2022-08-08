@@ -44,14 +44,17 @@ export const student_gen: Student_Generator = async (
   const fake_first_name = faker.name.firstName(gender);
   const fake_last_name = last_name ? last_name : faker.name.lastName();
 
+  //Generates fake parents
   const parent_promise: Promise<Nested_Parent>[] = [...Array(2)].map(
     async (p): Promise<Nested_Parent> => {
       return { parent: await parent_gen(mb_tld, api_key, fake_last_name) };
     }
   );
 
+  //Resolved the promises
   const nested_parents = await Promise.all(parent_promise);
 
+  //Unnests the parents
   const parents = nested_parents.map((p) => p.parent);
 
   const today = new Date();
@@ -67,6 +70,7 @@ export const student_gen: Student_Generator = async (
     today.getTime() - Math.floor(Math.random() * 365 * DAY_TO_MILLIS)
   );
 
+  //Fake student
   const res = await post(mb_tld, "students", api_key, {
     first_name: fake_first_name,
     last_name: fake_last_name,
@@ -119,6 +123,8 @@ export const parent_gen: Parent_Generator = async (
   );
 
   const fake_first_name = faker.name.firstName();
+
+  //Fake parent
   const res = await post(mb_tld, "parents", api_key, {
     first_name: fake_first_name,
     last_name: last_name,
